@@ -96,11 +96,11 @@ function clearPreviousRandom(){
 function displayMoreInfo(currentDrink){
     clearMoreInfo()
 
-    //Heading
+    ////Heading////
+
     let drinkName = currentDrink["strDrink"]
     let randomDrink = document.createElement('h3');
 
-    console.log(currentDrink["strAlcoholic"]);
     switch (currentDrink["strAlcoholic"]) {
         case "Alcoholic":
             alcoholicQuestion = " (Alcoholic)";            
@@ -119,14 +119,22 @@ function displayMoreInfo(currentDrink){
     randomDrink.appendChild(document.createTextNode(drinkName+alcoholicQuestion));
     document.querySelector('#moreInfoContainer').appendChild(randomDrink)
 
-    //Preview
+    ////Preview////
+
     let drinkPreview = document.createElement('img');
     drinkPreview.src = currentDrink["strDrinkThumb"];
     drinkPreview.alt = `Thumbnail of ${drinkName}`;
     drinkPreview.style.width = "200px";
     document.querySelector('#moreInfoContainer').appendChild(drinkPreview)
 
-    //Ingredients
+    ////Recommended Glass////
+
+    let glassRecommend = document.createElement('h4');
+    glassRecommend.appendChild(document.createTextNode(`Recommended Glass: ${currentDrink['strGlass']}`));
+    document.querySelector('#moreInfoContainer').appendChild(glassRecommend)
+
+    ////Ingredients////
+
     let ingredientHeading = document.createElement("h4");
     ingredientHeading.appendChild(document.createTextNode('Ingredients:'))
     document.querySelector('#moreInfoContainer').appendChild(ingredientHeading)
@@ -141,8 +149,7 @@ function displayMoreInfo(currentDrink){
         if (current === null || current === ""){break}
         if (currentDrink[`strMeasure${index+1}`] === "" || currentDrink[`strMeasure${index+1}`] === null) {amount = ""}
         else {amount = currentDrink[`strMeasure${index+1}`]}
-        ingredientList[index] = amount + currentDrink[`strIngredient${index+1}`].toLowerCase();
-        console.log(current, index)
+        ingredientList[index] = amount + " " + currentDrink[`strIngredient${index+1}`].toLowerCase();
         index ++;
     }
 
@@ -157,8 +164,36 @@ function displayMoreInfo(currentDrink){
         document.querySelector('#ingredientList').appendChild(listItem);
         
     }
+
+    ////Instructions////
+
+    let instructionsHeading = document.createElement("h4");
+    instructionsHeading.appendChild(document.createTextNode("Instructions"));
+    document.querySelector('#moreInfoContainer').appendChild(instructionsHeading)
+
+    let instructionsOrderedList = document.createElement("ol");
+    instructionsOrderedList.id = 'instructionList';
+    document.querySelector('#moreInfoContainer').appendChild(instructionsOrderedList);
+
+
+    let stepsArr = currentDrink['strInstructions'].split(/[!\.]/);
+
+    for (let index = 0; index < stepsArr.length; index++) {
+        if (stepsArr[index] === "") {
+            break;
+        }
+        let stepItem = document.createElement("li");
+        stepItem.appendChild(document.createTextNode(stepsArr[index]));
+        document.querySelector('#instructionList').appendChild(stepItem);
+    }
+
     
 
+}
+
+function separateSteps(string) {
+    const stepsArr = string.split(".");
+    return stepsArr
 
 }
 
@@ -174,6 +209,10 @@ function clearMoreInfo(){
 function eventListeners() {
     //Random Cocktail
     document.querySelector("#randomSearch").addEventListener('click', function(){cockFetch('random')})
+    document.querySelector("#clearPage").addEventListener('click', function(){
+        clearMoreInfo()
+        clearPreviousRandom()
+    })
 }
 
 document.addEventListener('DOMContentLoaded', function(){
