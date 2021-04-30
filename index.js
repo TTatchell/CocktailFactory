@@ -44,13 +44,25 @@ async function cockFetch(searchType, searchTerm) {
     })
 }
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //Code For Cocktail of the day
 /////////////////////////////////////////////////////////////////////////////////////////
 
+function loadDaily() {
+    
+    ////Loads Heading////
+
+    let dailyHeading = document.createElement('h2');
+    dailyHeading.appendChild(document.createTextNode("Cocktail Of The Day"));
+    document.querySelector("#workingArea").appendChild(dailyHeading);
+
+    ////Will eventually usecockFetch("id"); but for now will use:////
+    
+    cockFetch('random')
+}
+
 function id(package) {
+    clearWorkingArea()
 
     const currentDrink = package[0]
 
@@ -75,9 +87,6 @@ function idFromDay() {
 
 }
 
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //Code for Random Section
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -99,8 +108,18 @@ function loadRandom() {
     randomButton.appendChild(document.createTextNode("Random"));
     document.querySelector("#workingArea").appendChild(randomButton)
     document.querySelector("#randomSearch").addEventListener('click', function(){
-        clearMoreInfo()
+        clearWorkingArea()
         cockFetch('random')})
+
+    ////Loads Drink Container////
+
+    // let containerDiv = document.createElement('div')
+    // containerDiv.id = "discoverDrinkContainer"
+    // document.querySelector('#workingArea').appendChild(containerDiv);
+
+}
+
+function random(package) {
 
     ////Loads Drink Container////
 
@@ -108,15 +127,7 @@ function loadRandom() {
     containerDiv.id = "discoverDrinkContainer"
     document.querySelector('#workingArea').appendChild(containerDiv);
 
-}
-
-function random(package) {
     let currentDrink = package[0]
-
-    console.log(currentDrink['idDrink'])
-
-    clearPreviousRandom()
-
     let randomDrink = document.createElement('h3');
     let drinkName = currentDrink["strDrink"]
 
@@ -134,19 +145,71 @@ function random(package) {
     moreInfoButton.appendChild(document.createTextNode("Check It Out!"))
     document.querySelector('#discoverDrinkContainer').appendChild(moreInfoButton)
     moreInfoButton.addEventListener('click', function() {
-        clearPreviousRandom()
         displayMoreInfo(currentDrink)
     })
-}
-
-function clearPreviousRandom(){
-    const content = document.querySelector("#discoverDrinkContainer");
-    content.innerHTML = '';
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //Code For Search
 /////////////////////////////////////////////////////////////////////////////////////////
+
+function loadSearch() {
+
+    ////Loads Heading////
+
+    let searchHeading = document.createElement('h2');
+    searchHeading.appendChild(document.createTextNode("Search"));
+    document.querySelector("#workingArea").appendChild(searchHeading);
+
+    ////Loads Search Box////
+
+    //Div to store form
+    let searchDiv = document.createElement('div');
+    searchDiv.id = 'searchDiv';
+    document.querySelector('#workingArea').appendChild(searchDiv);
+
+    //Form container
+    let searchForm = document.createElement('form');
+    searchForm.id = 'searchForm';
+    searchForm.onsubmit='return false';
+    document.querySelector('#searchDiv').appendChild(searchForm);
+
+    //Search Radio
+
+    const radioArr = ["cocktail", "ingredient", "letter"]
+    for (let index = 0; index < radioArr.length; index++) {
+
+        //Creates a radio button and label for each item in above array
+        let searchRadioX = document.createElement('input');
+        searchRadioX.type = 'radio';
+        searchRadioX.id = `${radioArr[index]}`;
+        searchRadioX.name = 'typeOfSearch';
+        searchRadioX.value = `${radioArr[index]}`;
+        document.querySelector('#searchDiv').appendChild(searchRadioX);
+
+        //Label for above
+        let radioLabel = document.createElement('label');
+        radioLabel.for = `${radioArr[index]}`;
+        radioLabel.appendChild(document.createTextNode(`${radioArr[index].charAt(0).toUpperCase() + radioArr[index].slice(1)}`));
+        document.querySelector(`#searchDiv`).appendChild(radioLabel);
+
+        
+
+
+        //Line break
+        let lineBreak = document.createElement('br');
+        document.querySelector('#searchDiv').appendChild(lineBreak);
+    }
+    
+    //Search box
+    let searchInputBox = document.createElement('input');
+    searchInputBox.type = 'text';
+    searchInputBox.placeholder = 'Looking for something?..';
+    searchInputBox.id = 'searchInputBox';
+    document.querySelector('#searchDiv').appendChild(searchInputBox);
+}
+
+    
 
 
 
@@ -155,7 +218,13 @@ function clearPreviousRandom(){
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function displayMoreInfo(currentDrink){
-    clearMoreInfo()
+    clearWorkingArea()
+
+    ////Loads Drink Container////
+
+    let containerDiv = document.createElement('div')
+    containerDiv.id = "moreInfoContainer"
+    document.querySelector('#workingArea').appendChild(containerDiv);
 
     
 
@@ -263,28 +332,31 @@ function separateSteps(string) {
 
 }
 
-function clearMoreInfo(){
-    const content = document.querySelector("#moreInfoContainer");
-    content.innerHTML = '';
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //Adding event listeners once page has loaded
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function eventListeners() {
 
-    //Random Cocktail
+    //Random Cock
     document.querySelector("#navToDiscoverCocktail").addEventListener('click', function(){
         clearWorkingArea()
         loadRandom()})
 
     //Clear Page
     document.querySelector("#clearPage").addEventListener('click', function(){
-        clearMoreInfo()
-        clearPreviousRandom()
+        clearWorkingArea()})
 
+    //Cock of the day
+    document.querySelector("#navToDailyCocktail").addEventListener('click', function(){
         clearWorkingArea()
+        loadDaily()
+    })
+
+    //Search for different cocks
+    document.querySelector("#navToSearchContainer").addEventListener('click', function(){
+        clearWorkingArea()
+        loadSearch()
     })
 }
 
@@ -294,12 +366,9 @@ function clearWorkingArea() {
 
 }
 
-
-
 ////Runs all the good stuff once page has loaded
 document.addEventListener('DOMContentLoaded', function(){
     eventListeners();
-
-
-    //cockFetch("id"); THIS WILL RUN COCKTAIL OF THE DAY
+    //cockFetch("id"); THIS WILL RUN COCKTAIL OF THE DAY but for now will use random
+    loadDaily()
 })
