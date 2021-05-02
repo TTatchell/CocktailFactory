@@ -16,7 +16,37 @@ h2 {
 }
 
 h3 {
-    font-size: 2.5vw;
+    font-size: 2.75vw;
+    border-radius: 25px;
+    border: 0.5vw solid #124057;
+    padding: 0.5vw;
+    width: 100%;
+    text-align: center;
+}
+
+h4 {
+    font-size: 3vw;
+}
+
+li {
+    font-size: 3vw;
+    list-style-position: inside;
+}
+
+#discoverDrinkContainer {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    justify-content: center;
+    align-content: center;
+}
+
+#searchDrinkContainer {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    justify-content: center;
+    align-content: center;
 }
 
 #headerLogo {
@@ -38,10 +68,44 @@ h3 {
     font-size: 3vw;
     text-decoration: none;
     padding-inline: 1vw;
-    
+}
 
+button {
+    background-color: #124057;
+    border: none;
+    color: #88CEF0;
+    padding: 1vw 2vw;
+    text-align: center;
+    font-size: 2vw;
+}
 
+#searchInputBox {
+    background-color: #124057;
+    border: none;
+    padding: 1vw 2vw;
+    font-size: 2vw;
+}
 
+input::placeholder{
+    color: #88CEF0;
+  }
+  
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    max-width: 100%;
+    height: auto;
+    padding: 2vw;
+}
+
+label {
+    font-size: 3vw;
+}
+#footer {
+    background-color: #124057;
 }
 
 @-webkit-keyframes movingBackground {

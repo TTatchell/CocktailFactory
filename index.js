@@ -180,13 +180,20 @@ function loadSearch() {
     const radioArr = ["cocktail", "ingredient"/*, "letter"*/] // WHEN IMPLEMENTING LETTER SEARCH, UNCOMMENT AND THIS WILL ADD ANOTHER RADIO BUTTON
     for (let index = 0; index < radioArr.length; index++) {
 
+        //Creates a span to put the radios in
+        let radioSpan = document.createElement('span');
+        radioSpan.className = 'container';
+        radioSpan.id = `radioSpan${index}`
+        document.querySelector('#searchDiv').appendChild(radioSpan);
+
         //Creates a radio button and label for each item in above array
         let searchRadioX = document.createElement('input');
         searchRadioX.type = 'radio';
+        searchRadioX.className = 'radioButtons';
         searchRadioX.id = `${radioArr[index]}`;
         searchRadioX.name = 'typeOfSearch';
         searchRadioX.value = `${radioArr[index]}`;
-        document.querySelector('#searchDiv').appendChild(searchRadioX);
+        document.querySelector(`#radioSpan${index}`).appendChild(searchRadioX);
 
         //Label for above
         let radioLabel = document.createElement('label');
