@@ -9,25 +9,20 @@ async function cockFetch(searchType, searchTerm) {
             url = `https://www.thecocktaildb.com/api/json/v1/1/random.php`;
             break;
 
-        case "search":
-            console.log("CALLING SEARCH")
+        case "cocktail":
             url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchTerm}`;
             break;
         
         case "letter":
-            console.log("CALLING LETTER");
             url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchTerm}`;
             break;
 
         case "ingredient":
-            console.log("CALLING INGREDIENT");
             url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchTerm}`;
             break;
 
         case "id":
-            console.log("CALLING ID");
-            url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idFromDay()}`
-            console.log(url)
+            url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${searchTerm}`
             break;
 
         default:
@@ -41,6 +36,17 @@ async function cockFetch(searchType, searchTerm) {
         //console.log(json)
         //console.log(searchType)
         this[searchType](json.drinks);
+    })
+    .catch(function() {
+        try {
+            let errorBox = document.querySelector('#searchInputBox');
+            errorBox.value = '';
+            errorBox.placeholder = "No Cocktails Found";
+            errorBox.style.fontWeight = 'bold'
+            
+        } catch (error) {
+            console.log(error)
+        }
     })
 }
 
@@ -59,17 +65,6 @@ function loadDaily() {
     ////Will eventually usecockFetch("id"); but for now will use:////
     
     cockFetch('random')
-}
-
-function id(package) {
-    clearWorkingArea()
-
-    const currentDrink = package[0]
-
-    console.log(currentDrink)
-    
-
-
 }
 
 function idFromDay() {
@@ -108,15 +103,14 @@ function loadRandom() {
     randomButton.appendChild(document.createTextNode("Random"));
     document.querySelector("#workingArea").appendChild(randomButton)
     document.querySelector("#randomSearch").addEventListener('click', function(){
-        clearWorkingArea()
+        clearDrinkingContainer()
         cockFetch('random')})
 
     ////Loads Drink Container////
 
-    // let containerDiv = document.createElement('div')
-    // containerDiv.id = "discoverDrinkContainer"
-    // document.querySelector('#workingArea').appendChild(containerDiv);
-
+    let containerDiv = document.createElement('div')
+    containerDiv.id = "discoverDrinkContainer"
+    document.querySelector('#workingArea').appendChild(containerDiv);
 }
 
 function random(package) {
@@ -149,6 +143,13 @@ function random(package) {
     })
 }
 
+function clearDrinkingContainer() {
+
+    const content = document.querySelector("#discoverDrinkContainer");
+    content.innerHTML = '';
+
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //Code For Search
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -176,7 +177,7 @@ function loadSearch() {
 
     //Search Radio
 
-    const radioArr = ["cocktail", "ingredient", "letter"]
+    const radioArr = ["cocktail", "ingredient"/*, "letter"*/] // WHEN IMPLEMENTING LETTER SEARCH, UNCOMMENT AND THIS WILL ADD ANOTHER RADIO BUTTON
     for (let index = 0; index < radioArr.length; index++) {
 
         //Creates a radio button and label for each item in above array
@@ -207,10 +208,119 @@ function loadSearch() {
     searchInputBox.placeholder = 'Looking for something?..';
     searchInputBox.id = 'searchInputBox';
     document.querySelector('#searchDiv').appendChild(searchInputBox);
+
+    //Search button
+    let searchSubmit = document.createElement('button');
+    searchSubmit.id = 'submitButton';
+    searchSubmit.appendChild(document.createTextNode('Search'));
+    searchSubmit.addEventListener('click', function () {submitForm()})
+    document.querySelector('#searchDiv').appendChild(searchSubmit);
+    
 }
 
-    
+function submitForm() {
+    let cockSearch = {}
+    try {
+        cockSearch.searchType = document.querySelector('input[name="typeOfSearch"]:checked').value;
+        cockSearch.searchTerm = document.querySelector('#searchInputBox').value;
+        cockFetch(cockSearch.searchType, cockSearch.searchTerm)
+        
+    } 
+    catch (error) {
+        let errorBox = document.querySelector('#searchInputBox');
+        errorBox.placeholder = "Please Select An Option";
+        errorBox.style.fontWeight = 'bold'
+    }
+}
 
+function ingredient(package){
+    ////Clears the search options////
+    delDiv('searchDiv')
+
+    ////Loads an area to put drinks in////
+
+    let containerDiv = document.createElement('div')
+    containerDiv.id = "searchDrinkContainer"
+    document.querySelector('#workingArea').appendChild(containerDiv);
+
+    for (let index = 0; index < package.length; index++) {
+        let currentDrink = package[index];
+
+        ////Displays the drink////
+
+        //Heading
+        let drinkName = currentDrink['strDrink'];
+        let drinkHeading = document.createElement('h3');
+        drinkHeading.appendChild(document.createTextNode(drinkName));
+        document.querySelector('#searchDrinkContainer').appendChild(drinkHeading);
+        drinkHeading.addEventListener('click', function() {cockFetch('id', currentDrink['idDrink'])});
+
+        //Preview
+        let drinkPreview = document.createElement('img');
+        drinkPreview.src = currentDrink["strDrinkThumb"];
+        drinkPreview.alt = `Thumbnail of ${drinkName}`;
+        drinkPreview.style.width = "100px";
+        document.querySelector('#searchDrinkContainer').appendChild(drinkPreview)
+        drinkPreview.addEventListener('click', function() {cockFetch('id', currentDrink['idDrink'])});
+    }
+    
+}
+
+function id(package) {
+    let currentDrink = package[0]
+    displayMoreInfo(currentDrink)
+}
+
+//// THIS WILL REMAIN UNUSED DUE TO API LIMITATIONS ////
+function letter(package) {
+    cocktail(package)
+}
+
+function cocktail(package){
+    try {
+        if (package.length > 12){package.length = 12;}
+        console.log(package)
+
+        ////Clears the search options////
+        delDiv('searchDiv')
+
+        ////Loads an area to put drinks in////
+
+        let containerDiv = document.createElement('div')
+        containerDiv.id = "searchDrinkContainer"
+        document.querySelector('#workingArea').appendChild(containerDiv);
+
+
+        for (let index = 0; index < package.length; index++) {
+            console.log(package[index]['strDrink']);
+            let currentDrink = package[index];
+
+            ////Displays the drink////
+
+            //Heading
+            let drinkName = currentDrink['strDrink'];
+            let drinkHeading = document.createElement('h3');
+            drinkHeading.appendChild(document.createTextNode(drinkName));
+            document.querySelector('#searchDrinkContainer').appendChild(drinkHeading);
+            drinkHeading.addEventListener('click', function() {displayMoreInfo(currentDrink)});
+
+            //Preview
+            let drinkPreview = document.createElement('img');
+            drinkPreview.src = currentDrink["strDrinkThumb"];
+            drinkPreview.alt = `Thumbnail of ${drinkName}`;
+            drinkPreview.style.width = "100px";
+            document.querySelector('#searchDrinkContainer').appendChild(drinkPreview);
+            drinkPreview.addEventListener('click', function() {displayMoreInfo(currentDrink)});
+        }
+        
+    } 
+    catch (error) {
+        let errorBox = document.querySelector('#searchInputBox');
+        errorBox.value = '';
+        errorBox.placeholder = "No Cocktails Found";
+        errorBox.style.fontWeight = 'bold';
+    }
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -232,8 +342,6 @@ function displayMoreInfo(currentDrink){
 
     let drinkName = currentDrink["strDrink"]
     let randomDrink = document.createElement('h3');
-
-    console.log(currentDrink)
 
     switch (currentDrink["strAlcoholic"]) {
         case "Alcoholic":
@@ -314,7 +422,7 @@ function displayMoreInfo(currentDrink){
     let stepsArr = currentDrink['strInstructions'].split(/[!\.]/);
 
     for (let index = 0; index < stepsArr.length; index++) {
-        if (stepsArr[index] === "") {
+        if (stepsArr[index] === "" || stepsArr[index] === " ") {
             break;
         }
         let stepItem = document.createElement("li");
@@ -363,7 +471,15 @@ function eventListeners() {
 function clearWorkingArea() {
     const content = document.querySelector("#workingArea");
     content.innerHTML = '';
+}
 
+function clearDiv(div) {
+    const content = document.getElementByID(div);
+    content.innerHTML = '';
+}
+
+function delDiv(div) {
+    document.getElementById(div).remove();
 }
 
 ////Runs all the good stuff once page has loaded

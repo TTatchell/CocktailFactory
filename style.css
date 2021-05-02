@@ -1,0 +1,66 @@
+body {
+    font-family: monospace;
+    text-align: center;
+    color: #ececec;
+    background: linear-gradient(270deg, #88cef0, #2d9ed6, #2278a3);
+    background-size: 600% 600%;
+
+    -webkit-animation: movingBackground 0s ease infinite;
+    -moz-animation: movingBackground 0s ease infinite;
+    -o-animation: movingBackground 0s ease infinite;
+    animation: movingBackground 0s ease infinite;
+}
+
+h2 {
+    font-size: 3vw;
+}
+
+h3 {
+    font-size: 2.5vw;
+}
+
+#headerLogo {
+    max-width: 100%;
+    height: auto;
+    padding: 1vw;
+
+}
+
+#navigationBar {
+    
+    background: #124057;
+    letter-spacing: 0.1vw;
+    padding-block: 0.25vw;
+}
+
+.navButton {
+    color: whitesmoke;
+    font-size: 3vw;
+    text-decoration: none;
+    padding-inline: 1vw;
+    
+
+
+
+}
+
+@-webkit-keyframes movingBackground {
+    0%{background-position:0% 96%}
+    50%{background-position:100% 5%}
+    100%{background-position:0% 96%}
+}
+@-moz-keyframes movingBackground {
+    0%{background-position:0% 96%}
+    50%{background-position:100% 5%}
+    100%{background-position:0% 96%}
+}
+@-o-keyframes movingBackground {
+    0%{background-position:0% 96%}
+    50%{background-position:100% 5%}
+    100%{background-position:0% 96%}
+}
+@keyframes movingBackground {
+    0%{background-position:0% 96%}
+    50%{background-position:100% 5%}
+    100%{background-position:0% 96%}
+}
