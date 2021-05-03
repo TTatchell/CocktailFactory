@@ -9,6 +9,8 @@ body {
     -moz-animation: movingBackground 0s ease infinite;
     -o-animation: movingBackground 0s ease infinite;
     animation: movingBackground 0s ease infinite;
+
+    margin-right: 15px;
 }
 
 h2 {
@@ -62,6 +64,17 @@ li {
     height: auto;
     padding: 1em;
     margin-top: 6vh;
+    max-width: 800px;
+    border: none;
+}
+
+#footerLogo {
+    max-width: 100%;
+    height: auto;
+    padding: 1em;
+    margin-top: 6vh;
+    max-width: 800px;
+
 }
 
 #navigationBar {
@@ -79,7 +92,7 @@ li {
 
 .navButton {
     color: whitesmoke;
-    font-size: 3vw;
+    font-size: 2vw;
     text-decoration: none;
     padding-inline: 1vw;
     float:inherit;
@@ -118,10 +131,6 @@ img {
     padding: 0.5vw;
     border: 0.3vw solid #124057;
     border-radius: 3vw;
-}
-
-#headerLogo {
-    border: none;
 }
 
 .drinkPrev:hover {
