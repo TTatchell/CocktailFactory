@@ -59,7 +59,7 @@ function loadDaily() {
     ////Loads Heading////
 
     let dailyHeading = document.createElement('h2');
-    dailyHeading.appendChild(document.createTextNode("Cocktail Of The Day"));
+    dailyHeading.appendChild(document.createTextNode("Currently Featured Beverage:"));
     document.querySelector("#workingArea").appendChild(dailyHeading);
 
     ////Will eventually usecockFetch("id"); but for now will use:////
@@ -105,7 +105,8 @@ function loadRandom() {
     document.querySelector("#randomSearch").addEventListener('click', function(){
         clearDrinkingContainer()
         cockFetch('random')})
-
+    
+    highlightButton('randomSearch', '#88CEF0', '#124057')
     ////Loads Drink Container////
 
     let containerDiv = document.createElement('div')
@@ -134,13 +135,19 @@ function random(package) {
     drinkPreview.style.width = "200px";
     document.querySelector('#discoverDrinkContainer').appendChild(drinkPreview)
 
+    //Line break
+    let lineBreak = document.createElement('br');
+    document.querySelector('#discoverDrinkContainer').appendChild(lineBreak);
+
     let moreInfoButton = document.createElement('button');
     moreInfoButton.type = "button";
+    moreInfoButton.id = 'moreInfoButton';
     moreInfoButton.appendChild(document.createTextNode("Check It Out!"))
     document.querySelector('#discoverDrinkContainer').appendChild(moreInfoButton)
     moreInfoButton.addEventListener('click', function() {
         displayMoreInfo(currentDrink)
     })
+    highlightButton('moreInfoButton', '#88CEF0', '#124057')
 }
 
 function clearDrinkingContainer() {
@@ -207,6 +214,10 @@ function loadSearch() {
         //Line break
         let lineBreak = document.createElement('br');
         document.querySelector('#searchDiv').appendChild(lineBreak);
+        let lineBreak2 = document.createElement('br');
+        document.querySelector('#searchDiv').appendChild(lineBreak2);
+        let lineBreak3 = document.createElement('br');
+        document.querySelector('#searchDiv').appendChild(lineBreak3);
     }
     
     //Search box
@@ -215,6 +226,7 @@ function loadSearch() {
     searchInputBox.placeholder = 'Looking for something?..';
     searchInputBox.id = 'searchInputBox';
     document.querySelector('#searchDiv').appendChild(searchInputBox);
+    highlightButton('searchInputBox', '#48575E', '#124057')
 
     //Search button
     let searchSubmit = document.createElement('button');
@@ -222,6 +234,7 @@ function loadSearch() {
     searchSubmit.appendChild(document.createTextNode('Search'));
     searchSubmit.addEventListener('click', function () {submitForm()})
     document.querySelector('#searchDiv').appendChild(searchSubmit);
+    highlightButton('submitButton', '#88CEF0', '#124057')
     
 }
 
@@ -258,6 +271,7 @@ function ingredient(package){
         //Heading
         let drinkName = currentDrink['strDrink'];
         let drinkHeading = document.createElement('h3');
+        drinkHeading.className = 'drinkPrev';
         drinkHeading.appendChild(document.createTextNode(drinkName));
         document.querySelector('#searchDrinkContainer').appendChild(drinkHeading);
         drinkHeading.addEventListener('click', function() {cockFetch('id', currentDrink['idDrink'])});
@@ -265,10 +279,18 @@ function ingredient(package){
         //Preview
         let drinkPreview = document.createElement('img');
         drinkPreview.src = currentDrink["strDrinkThumb"];
+        drinkPreview.className = 'drinkPrev';
         drinkPreview.alt = `Thumbnail of ${drinkName}`;
         drinkPreview.style.width = "100px";
         document.querySelector('#searchDrinkContainer').appendChild(drinkPreview)
         drinkPreview.addEventListener('click', function() {cockFetch('id', currentDrink['idDrink'])});
+
+        //Puts an empty item to assist grid
+        if (index % 2 == 0) {
+            let useless = document.createElement('span');
+            useless.className = 'uselessSpan';
+            document.querySelector('#searchDrinkContainer').appendChild(useless);
+        }
     }
     
 }
@@ -286,7 +308,6 @@ function letter(package) {
 function cocktail(package){
     try {
         if (package.length > 12){package.length = 12;}
-        console.log(package)
 
         ////Clears the search options////
         delDiv('searchDiv')
@@ -299,7 +320,6 @@ function cocktail(package){
 
 
         for (let index = 0; index < package.length; index++) {
-            console.log(package[index]['strDrink']);
             let currentDrink = package[index];
 
             ////Displays the drink////
@@ -308,6 +328,7 @@ function cocktail(package){
             let drinkName = currentDrink['strDrink'];
             let drinkHeading = document.createElement('h3');
             drinkHeading.appendChild(document.createTextNode(drinkName));
+            drinkHeading.className = 'drinkPrev';
             document.querySelector('#searchDrinkContainer').appendChild(drinkHeading);
             drinkHeading.addEventListener('click', function() {displayMoreInfo(currentDrink)});
 
@@ -316,10 +337,18 @@ function cocktail(package){
             drinkPreview.src = currentDrink["strDrinkThumb"];
             drinkPreview.alt = `Thumbnail of ${drinkName}`;
             drinkPreview.style.width = "100px";
+            drinkPreview.className = 'drinkPrev';
             document.querySelector('#searchDrinkContainer').appendChild(drinkPreview);
             drinkPreview.addEventListener('click', function() {displayMoreInfo(currentDrink)});
-        }
-        
+
+
+            //Puts an empty item to assist grid
+            if (index % 2 == 0) {
+                let useless = document.createElement('span');
+                useless.className = 'uselessSpan';
+                document.querySelector('#searchDrinkContainer').appendChild(useless);
+            }
+        } 
     } 
     catch (error) {
         let errorBox = document.querySelector('#searchInputBox');
@@ -473,6 +502,27 @@ function eventListeners() {
         clearWorkingArea()
         loadSearch()
     })
+
+
+    document.querySelector('#navToDailyCocktail').addEventListener('mouseover', function(){highlightButton('navToDailyCocktail', 'whitesmoke', '#124057')})
+    document.querySelector('#navToDailyCocktail').addEventListener('mouseover', function(){highlightButton(`navToDiscoverCocktail`, 'whitesmoke', '#124057')})
+    document.querySelector('#navToDailyCocktail').addEventListener('mouseover', function(){highlightButton(`navToSearchContainer`, 'whitesmoke', '#124057')})
+    document.querySelector('#clearPage').addEventListener('mouseover', function(){highlightButton('clearPage', '#88CEF0', '#124057')})
+}
+
+function highlightButton(objectId, color1, color2) {
+    let object = document.getElementById(objectId);
+    object.addEventListener('mouseover', function(){
+        object.style.backgroundColor = color1
+        object.style.color = color2
+    })
+
+    object.addEventListener('mouseout', function(){
+        object.style.backgroundColor = color2
+        object.style.color = color1
+    })
+    
+
 }
 
 function clearWorkingArea() {
@@ -489,9 +539,11 @@ function delDiv(div) {
     document.getElementById(div).remove();
 }
 
+
 ////Runs all the good stuff once page has loaded
 document.addEventListener('DOMContentLoaded', function(){
     eventListeners();
     //cockFetch("id"); THIS WILL RUN COCKTAIL OF THE DAY but for now will use random
     loadDaily()
+    
 })

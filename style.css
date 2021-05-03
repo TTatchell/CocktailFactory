@@ -9,6 +9,7 @@ body {
     -moz-animation: movingBackground 0s ease infinite;
     -o-animation: movingBackground 0s ease infinite;
     animation: movingBackground 0s ease infinite;
+
 }
 
 h2 {
@@ -17,19 +18,20 @@ h2 {
 
 h3 {
     font-size: 2.75vw;
-    border-radius: 25px;
-    border: 0.5vw solid #124057;
-    padding: 0.5vw;
+    padding: 0.5em;
+    padding-bottom: 2em;
     width: 100%;
+    max-height: 1em;
+    box-sizing: border-box;
     text-align: center;
 }
 
 h4 {
-    font-size: 3vw;
+    font-size: 2.5vw;
 }
 
 li {
-    font-size: 3vw;
+    font-size: 2.5vw;
     list-style-position: inside;
 }
 
@@ -43,16 +45,26 @@ li {
 
 #searchDrinkContainer {
     display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 1em 1em;
+
+}
+
+#moreInfoContainer {
+    display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto auto auto;
     justify-content: center;
     align-content: center;
+
 }
 
 #headerLogo {
     max-width: 100%;
     height: auto;
-    padding: 1vw;
+    padding: 1em;
+    margin-top: 6vh;
 
 }
 
@@ -61,6 +73,14 @@ li {
     background: #124057;
     letter-spacing: 0.1vw;
     padding-block: 0.25vw;
+    position: fixed;
+    top:0;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: auto auto auto ;
+    grid-template-rows: auto;
+    grid-gap: 20px;
 }
 
 .navButton {
@@ -68,6 +88,8 @@ li {
     font-size: 3vw;
     text-decoration: none;
     padding-inline: 1vw;
+    float:inherit;
+    text-align: center;
 }
 
 button {
@@ -88,6 +110,7 @@ button {
 
 input::placeholder{
     color: #88CEF0;
+    padding-bottom: 15px;
   }
   
 
@@ -98,11 +121,22 @@ img {
     width: 50%;
     max-width: 100%;
     height: auto;
-    padding: 2vw;
+    padding: 0.5vw;
+    border: 0.3vw solid #124057;
+    border-radius: 3vw;
 }
 
+#headerLogo {
+    border: none;
+}
+
+.drinkPrev:hover {
+    box-shadow: 0 0 2px 1px rgba(136, 206, 240, 0.5);
+  }
+
 label {
-    font-size: 3vw;
+    font-size: 2.5vw;
+    
 }
 #footer {
     background-color: #124057;
