@@ -107,6 +107,7 @@ function loadRandom() {
         cockFetch('random')})
     
     highlightButton('randomSearch', '#88CEF0', '#124057')
+
     ////Loads Drink Container////
 
     let containerDiv = document.createElement('div')
@@ -132,7 +133,7 @@ function random(package) {
     let drinkPreview = document.createElement('img');
     drinkPreview.src = currentDrink["strDrinkThumb"];
     drinkPreview.alt = `Thumbnail of ${drinkName}`;
-    drinkPreview.style.width = "200px";
+    drinkPreview.style.width = "15em";
     document.querySelector('#discoverDrinkContainer').appendChild(drinkPreview)
 
     //Line break
@@ -281,7 +282,7 @@ function ingredient(package){
         drinkPreview.src = currentDrink["strDrinkThumb"];
         drinkPreview.className = 'drinkPrev';
         drinkPreview.alt = `Thumbnail of ${drinkName}`;
-        drinkPreview.style.width = "100px";
+        drinkPreview.style.width = "10em";
         document.querySelector('#searchDrinkContainer').appendChild(drinkPreview)
         drinkPreview.addEventListener('click', function() {cockFetch('id', currentDrink['idDrink'])});
 
@@ -336,7 +337,7 @@ function cocktail(package){
             let drinkPreview = document.createElement('img');
             drinkPreview.src = currentDrink["strDrinkThumb"];
             drinkPreview.alt = `Thumbnail of ${drinkName}`;
-            drinkPreview.style.width = "100px";
+            drinkPreview.style.width = "10em";
             drinkPreview.className = 'drinkPrev';
             document.querySelector('#searchDrinkContainer').appendChild(drinkPreview);
             drinkPreview.addEventListener('click', function() {displayMoreInfo(currentDrink)});

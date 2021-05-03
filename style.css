@@ -9,7 +9,6 @@ body {
     -moz-animation: movingBackground 0s ease infinite;
     -o-animation: movingBackground 0s ease infinite;
     animation: movingBackground 0s ease infinite;
-
 }
 
 h2 {
@@ -48,7 +47,6 @@ li {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     gap: 1em 1em;
-
 }
 
 #moreInfoContainer {
@@ -57,7 +55,6 @@ li {
     grid-template-rows: auto auto auto;
     justify-content: center;
     align-content: center;
-
 }
 
 #headerLogo {
@@ -65,18 +62,15 @@ li {
     height: auto;
     padding: 1em;
     margin-top: 6vh;
-
 }
 
 #navigationBar {
-    
     background: #124057;
     letter-spacing: 0.1vw;
     padding-block: 0.25vw;
     position: fixed;
     top:0;
     width: 100%;
-
     display: grid;
     grid-template-columns: auto auto auto ;
     grid-template-rows: auto;
@@ -135,9 +129,9 @@ img {
   }
 
 label {
-    font-size: 2.5vw;
-    
+    font-size: 2.5vw;   
 }
+
 #footer {
     background-color: #124057;
 }
