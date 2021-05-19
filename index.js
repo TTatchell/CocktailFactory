@@ -342,13 +342,15 @@ function cocktail(package){
             document.querySelector('#searchDrinkContainer').appendChild(drinkPreview);
             drinkPreview.addEventListener('click', function() {displayMoreInfo(currentDrink)});
 
+            //Like spot
 
-            //Puts an empty item to assist grid
-            if (index % 2 == 0) {
-                let useless = document.createElement('span');
-                useless.className = 'uselessSpan';
-                document.querySelector('#searchDrinkContainer').appendChild(useless);
-            }
+            let likeButton = document.createElement('img');
+            likeButton.src = './IMAGES/blank.png';
+            likeButton.alt = 'This is supposed to be a like button img';
+            likeButton.style.width = "5em";
+            likeButton.className = 'likeButton';
+            document.querySelector('#searchDrinkContainer').appendChild(likeButton);
+            likeButton.addEventListener('click', function() {likeImage(likeButton)})
         } 
     } 
     catch (error) {
@@ -356,6 +358,25 @@ function cocktail(package){
         errorBox.value = '';
         errorBox.placeholder = "No Cocktails Found";
         errorBox.style.fontWeight = 'bold';
+    }
+}
+
+function likeImage(likeButton) {
+    const isLiked = likeButton.classList.value.includes('liked')
+
+    switch (isLiked) {
+        case true:
+            likeButton.src = './IMAGES/blank.png';
+            likeButton.classList.remove("liked");
+            break;
+
+        case false:
+            likeButton.src = './IMAGES/colored.png';
+            likeButton.classList.add("liked");
+            break;
+    
+        default:
+            break;
     }
 }
 

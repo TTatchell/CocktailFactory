@@ -1,0 +1,11 @@
+bullet points cleaned up
+
+more spacing for cocktail images
+
+think about layout on different screen sizes
+
+async await
+
+fix search layout
+
+Think about making a function to render headings, images, etc
